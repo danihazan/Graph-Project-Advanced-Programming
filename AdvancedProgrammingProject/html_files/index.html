@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Viewer</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .frame-container {
+            display: flex;
+            flex: 1;
+        }
+        iframe {
+            height: 100%;
+            border: none;
+        }
+        .left-frame {
+            flex: 1;
+            border-right: 1px solid #ccc;
+        }
+        .middle-frame {
+            flex: 4; /* Make the middle frame wider */
+            border-right: 1px solid #ccc;
+        }
+        .right-frame {
+            flex: 1; /* Make the right frame narrower */
+        }
+    </style>
+</head>
+<body>
+<div class="frame-container">
+    <iframe class="left-frame" id="configFrame" src="from.html"></iframe>
+    <iframe class="middle-frame" id="graphFrame" name="graphFrame" src="temp.html"></iframe>
+    <iframe class="right-frame" id="topicTableFrame" name="topicTableFrame" src="temp.html"></iframe>
+</div>
+
+</body>
+</html>
