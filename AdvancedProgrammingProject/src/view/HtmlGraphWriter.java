@@ -14,7 +14,7 @@ public class HtmlGraphWriter {
     // Method to generate HTML from the graph object
     public static String getGraphHTML(Graph graph) throws IOException {
         // Load the HTML template from the file located two directories back in "html_files"
-        String templatePath = Paths.get(System.getProperty("user.dir")).toString()+"/html_files/graph.html";
+        String templatePath = Paths.get(System.getProperty("user.dir")).toString()+"/AdvancedProgrammingProject/html_files/graph.html";
         String template = Files.readString(Paths.get(templatePath));
 
         // Generate JavaScript array for nodes with coordinates and messages if they exist
