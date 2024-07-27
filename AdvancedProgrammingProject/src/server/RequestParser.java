@@ -9,105 +9,134 @@ public class RequestParser {
 
     public static RequestInfo parseRequest(BufferedReader reader) throws IOException {
         String requestLine = reader.readLine();
-        if (requestLine == null || requestLine.isEmpty()) {
-            throw new IOException("Empty request line");
+        if (requestLine == null || requestLine.trim().isEmpty()) {
+            throw new IOException("Invalid/Empty request line");
         }
 
-        //Handle first line: Command + URI + HTTP Version
+        // Parse the request line
         String[] requestParts = requestLine.split(" ");
-        if(requestParts.length<2)
+        if (requestParts.length < 2) {
             throw new IOException("Invalid request missing Command/ URI");
-        
-        String command = requestParts[0]; //command
-        String uri = requestParts[1];//uri
-
-        //Divide Uri to path and parameters using char '?'
-        String[] uriParts = uri.split("\\?");
-        //Handle uri path to segments
-        String path = uriParts[0];
-        String[] rawPathSegments = path.split("/");
-        // Filter out empty segments
-        List<String> filteredPathSegments = new ArrayList<>();
-        for (String segment : rawPathSegments) {
-            if (!segment.isEmpty()) {
-                filteredPathSegments.add(segment);
-            }
         }
-        String[] pathSegments = filteredPathSegments.toArray(new String[0]);
-        //Handle uri parameters
-        Map<String, String> queryParams = new HashMap<>();
-        if (uriParts.length > 1) {
-            handleParameters(uriParts[1],queryParams);
+        String command = requestParts[0];
+        String uri = requestParts[1];
+
+        // Split URI into path and query parameters
+        String[] uriComponents = uri.split("\\?", 2);
+        String path = uriComponents[0];
+        String[] pathSegments = Arrays.stream(path.split("/"))
+                .filter(segment -> !segment.isEmpty())
+                .toArray(String[]::new);
+
+        // Extract query parameters if present
+        Map<String, String> queryParams = new LinkedHashMap<>();
+        if (uriComponents.length > 1) {
+            parseQueryParams(uriComponents[1], queryParams);
         }
 
-        // Read the headers
-        String line;
+
+        // Read headers
         Map<String, String> headers = new HashMap<>();
-        while ((line = reader.readLine()) != null && !line.isEmpty()) {
-            String[] headerParts = line.split(": ", 2);
+        String line;
+        while ((line = reader.readLine()) != null && !line.trim().isEmpty()) {
+            String[] headerParts = line.split(":", 2);
             if (headerParts.length == 2) {
-                headers.put(headerParts[0], headerParts[1]);
+                headers.put(headerParts[0].trim(), headerParts[1].trim());
             }
         }
 
-        // Read the body (if any)
-        int contentLength = 0;
-        if (headers.containsKey("Content-Length")) {
-            contentLength = Integer.parseInt(headers.get("Content-Length"));
-        }
-        byte[] bodyContent = new byte[contentLength];
-        if (contentLength > 0) {
-            int bytesRead = 0;
-            while (bytesRead < contentLength) {
-                Readable byteArrayInputStream;
-                int result = byteArrayInputStream.read(bodyContent, bytesRead, contentLength - bytesRead);
-                if (result == -1) {
-                    break;
+        // ADDED - START
+        /*
+        Checking for additional parameters like fileName and others by looking for '=' signs,
+        First marking the state of the reader so we can go back if there was no additional parameters.
+        we do that so we can get the pointer of the BufferReader to the exact spot where the content start.
+
+        we have 2 situations to cover:
+        1. GET/POST \n ":" parameters \n content \n
+        2. GET/POST \n ":" parameters \n '=' parameters \n content \n
+         */
+        reader.mark(2048); // The additional parameters size are unlikely to pass that limit
+        boolean extraParameters = false;
+        try {
+            while ((line = reader.readLine()) != null && line.trim().contains("=")) {
+                extraParameters = true;
+                String[] headerParts = line.split("=", 2);
+                if (headerParts.length == 2) {
+                    headers.put(headerParts[0].trim(), headerParts[1].trim());
                 }
-                bytesRead += result;
+            }
+
+        }
+        catch (IOException e) {
+            // if there wasn't parameters we need to revert the pointer to the start of content data
+            if (!extraParameters) {
+                reader.reset();
             }
         }
 
-        // Create and return the RequestInfo object
+        // ADDED - END
 
-        // Create and return the RequestInfo object
+        // Determine content length and read the body
+        int contentLength = headers.containsKey("Content-Length")
+                ? Integer.parseInt(headers.get("Content-Length"))
+                : 0;
 
-        System.out.println("command:"+command);
-        System.out.println("uri:"+uri);
-        System.out.println("Path:"+pathSegments);
-        System.out.println("parameters:"+queryParams);
-        System.out.println("Content:"+body.toString().getBytes(StandardCharsets.UTF_8));
-        return new RequestInfo(command, uri, pathSegments, queryParams, bodyContent);
+        StringBuilder bodyBuilder = new StringBuilder();
 
+        if (contentLength > 0) {
+            char[] bodyBuffer = new char[contentLength];
+            int bytesRead = reader.read(bodyBuffer, 0, contentLength);
+            if (bytesRead == -1) {
+                throw new IOException("Content body is empty.");
+            }
+            bodyBuilder.append(bodyBuffer);
+        }
 
+        if(reader.ready()) {
+            System.err.println("Warning: The size contentLength that was given is smaller then the actual content, there is more content to read.");
+        }
+
+        byte[] contentBytes = bodyBuilder.toString().getBytes(StandardCharsets.UTF_8);
+
+        // Print request details for debugging
+//        debugPrint(command, uri, pathSegments, queryParams, contentBytes);
+        return new RequestInfo(command, uri, pathSegments, queryParams, headers, contentBytes);
     }
-    private static void handleParameters(String paramString, Map<String, String> parameters) {
-        String[] params = paramString.split("&");
+
+    private static void parseQueryParams(String queryString, Map<String, String> queryParams) {
+        String[] params = queryString.split("&");
         for (String param : params) {
-            String[] keyValue = param.split("=");
-            if (keyValue.length > 1) {
-                parameters.put(keyValue[0], keyValue[1]);
-            } else {
-                parameters.put(keyValue[0], "");
-            }
+            String[] keyValue = param.split("=", 2);
+            String key = keyValue[0].trim();
+            String value = keyValue.length > 1 ? keyValue[1].trim() : "";
+            queryParams.put(key, value);
         }
     }
 
+    private static void debugPrint(String command, String uri, String[] pathSegments, Map<String, String> queryParams, byte[] contentBytes) {
+        System.out.println("Command: " + command);
+        System.out.println("URI: " + uri);
+        System.out.println("Path Segments: " + Arrays.toString(pathSegments));
+        System.out.println("Query Parameters: " + queryParams);
+        System.out.println("---");
+        System.out.println("Content: " + new String(contentBytes, StandardCharsets.UTF_8));
+        System.out.println("---");
+    }
 
-
-    // RequestInfo given internal class
     public static class RequestInfo {
         private final String httpCommand;
         private final String uri;
         private final String[] uriSegments;
         private final Map<String, String> parameters;
+        private final Map<String, String> headers;
         private final byte[] content;
 
-        public RequestInfo(String httpCommand, String uri, String[] uriSegments, Map<String, String> parameters, byte[] content) {
+        public RequestInfo(String httpCommand, String uri, String[] uriSegments, Map<String, String> parameters, Map<String, String> headers, byte[] content) {
             this.httpCommand = httpCommand;
             this.uri = uri;
             this.uriSegments = uriSegments;
             this.parameters = parameters;
+            this.headers = headers;
             this.content = content;
         }
 
@@ -127,16 +156,21 @@ public class RequestParser {
             return parameters;
         }
 
+        public Map<String, String> getHeaders() {
+            return headers;
+        }
+
         public byte[] getContent() {
             return content;
         }
-        public void PrintRequest(){
-            System.out.println("http command:"+httpCommand);
-            System.out.println("uri"+uri);
-            System.out.println("uri segments:"+Arrays.toString(uriSegments));
-            System.out.println("parameters:"+parameters);
-            System.out.println("content:"+content.toString());
 
+        public void printRequest() {
+            System.out.println("HTTP Command: " + httpCommand);
+            System.out.println("URI: " + uri);
+            System.out.println("URI Segments: " + Arrays.toString(uriSegments));
+            System.out.println("Parameters: " + parameters);
+            System.out.println("Headers: " + headers);
+            System.out.println("Content: " + new String(content, StandardCharsets.UTF_8));
         }
     }
 }
