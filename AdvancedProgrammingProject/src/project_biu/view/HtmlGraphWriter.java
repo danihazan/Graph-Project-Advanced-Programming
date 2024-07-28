@@ -92,8 +92,14 @@ public class HtmlGraphWriter {
                     case PlusAgent plusAgent -> {
                         equation.append(plusAgent.getOutputTopicName()).append("=").append(plusAgent.getFirstTopicName()).append("+").append(plusAgent.getSecondTopicName());
                     }
-                    case BinOpAgent binOpAgent -> {
-                        equation.append(binOpAgent.getOutputTopicName()).append("=").append(binOpAgent.getFirstTopicName()).append(binOpAgent.getOperation()).append(binOpAgent.getSecondTopicName());
+                    case MulAgent mulAgent -> {
+                        equation.append(mulAgent.getOutputTopicName()).append("=").append(mulAgent.getFirstTopicName()).append("*").append(mulAgent.getSecondTopicName());
+                    }
+                    case DivAgent divAgent -> {
+                        equation.append(divAgent.getOutputTopicName()).append("=").append(divAgent.getFirstTopicName()).append("/").append(divAgent.getSecondTopicName());
+                    }
+                    case ExponnentAgent exponnentAgent -> {
+                        equation.append(exponnentAgent.getOutputTopicName()).append("=").append(exponnentAgent.getFirstTopicName()).append("^").append(exponnentAgent.getSecondTopicName());
                     }
                     default -> {
                     }

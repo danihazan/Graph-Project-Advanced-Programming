@@ -4,7 +4,7 @@ import project_biu.graph.Agent;
 import project_biu.graph.Message;
 import project_biu.graph.TopicManagerSingleton;
 
-public class PlusAgent implements Agent {
+public class DivAgent implements Agent {
 
     String name;
     String firstTopicName;
@@ -14,18 +14,20 @@ public class PlusAgent implements Agent {
     String outputTopicName;
     static int counter = 1;
 
-    public PlusAgent(String[] subs, String[] pubs){
+    public DivAgent(String[] subs, String[] pubs){
+        //update topics
         this.firstTopicName = subs[0];
         this.secondTopicName = subs[1];
         this.outputTopicName = pubs[0];
         this.firstInputVal = Double.NaN;
         this.secondInputVal = Double.NaN;
-        this.name="PlusAgent "+counter;
+        //update Agent Name
+        this.name="DivAgent "+counter;
         counter++;
         //subscribe to input topics
         TopicManagerSingleton.get().getTopic(firstTopicName).subscribe(this);
         TopicManagerSingleton.get().getTopic(secondTopicName).subscribe(this);
-        //add publisher to outout topic
+        //add publisher to output topic
         TopicManagerSingleton.get().getTopic(outputTopicName).addPublisher(this);
 
     }
@@ -35,9 +37,7 @@ public class PlusAgent implements Agent {
     }
 
     @Override
-    public void reset() {
-
-    }
+    public void reset() {}
 
     @Override
     public void callback(String topic, Message msg) {
@@ -51,7 +51,7 @@ public class PlusAgent implements Agent {
         }
         //check if both topics sent Double if so calculate output
         if (!Double.isNaN(firstInputVal) && !Double.isNaN(secondInputVal)) {
-            Double outputVal= firstInputVal+secondInputVal;
+            double outputVal= firstInputVal/secondInputVal;
             TopicManagerSingleton.get().getTopic(outputTopicName).publish(new Message(outputVal));
         }
 

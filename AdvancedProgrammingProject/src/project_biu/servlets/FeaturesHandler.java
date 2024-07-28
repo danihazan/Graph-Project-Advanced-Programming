@@ -61,15 +61,34 @@ public class FeaturesHandler implements Servlet {
                         htmlTable.append("<td>").append(result).append("</td>");
                         htmlTable.append("</tr>");
                     }
-                    case BinOpAgent binOpAgent -> {
+                    case MulAgent mulAgent -> {
                         htmlTable.append("<tr>");
                         htmlTable.append("<td>").append(a.getName()).append("</td>");
-                        htmlTable.append("<td>").append(binOpAgent.getOutputTopicName()).append("=").append(binOpAgent.getFirstTopicName()).append(binOpAgent.getOperation()).append(binOpAgent.getSecondTopicName()).append("</td>");
-                        String lastMessage = tm.getTopic(binOpAgent.getOutputTopicName()).getLastMessage();
+                        htmlTable.append("<td>").append(mulAgent.getOutputTopicName()).append("=").append(mulAgent.getFirstTopicName()).append("*").append(mulAgent.getSecondTopicName()).append("</td>");
+                        String lastMessage = tm.getTopic(mulAgent.getOutputTopicName()).getLastMessage();
                         String result = (lastMessage != null) ? lastMessage : "Not Determined";
                         htmlTable.append("<td>").append(result).append("</td>");
                         htmlTable.append("</tr>");
                     }
+                    case DivAgent divAgent -> {
+                        htmlTable.append("<tr>");
+                        htmlTable.append("<td>").append(a.getName()).append("</td>");
+                        htmlTable.append("<td>").append(divAgent.getOutputTopicName()).append("=").append(divAgent.getFirstTopicName()).append("/").append(divAgent.getSecondTopicName()).append("</td>");
+                        String lastMessage = tm.getTopic(divAgent.getOutputTopicName()).getLastMessage();
+                        String result = (lastMessage != null) ? lastMessage : "Not Determined";
+                        htmlTable.append("<td>").append(result).append("</td>");
+                        htmlTable.append("</tr>");
+                    }
+                    case ExponnentAgent exponnentAgent -> {
+                        htmlTable.append("<tr>");
+                        htmlTable.append("<td>").append(a.getName()).append("</td>");
+                        htmlTable.append("<td>").append(exponnentAgent.getOutputTopicName()).append("=").append(exponnentAgent.getFirstTopicName()).append("^").append(exponnentAgent.getSecondTopicName()).append("</td>");
+                        String lastMessage = tm.getTopic(exponnentAgent.getOutputTopicName()).getLastMessage();
+                        String result = (lastMessage != null) ? lastMessage : "Not Determined";
+                        htmlTable.append("<td>").append(result).append("</td>");
+                        htmlTable.append("</tr>");
+                    }
+
                     default -> {
                     }
                 }
