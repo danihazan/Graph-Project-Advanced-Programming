@@ -14,9 +14,21 @@ import project_biu.configs.GenericConfig;
 import project_biu.graph.Graph;
 import project_biu.server.RequestParser.RequestInfo;
 
+/**
+ * The ConfLoader class is responsible for loading configuration file used for creating the graph.
+ * Handles "POST", "/upload" requests
+ */
 public class ConfLoader implements Servlet {
     static public GenericConfig gc=null;
     @Override
+
+/**
+ * Handles the incoming request and writes the response to the provided OutputStream.
+ *
+ * @param requestInfo the RequestInfo object containing for "POST", "/upload" requests containing the configuration file
+ * @param toClient the OutputStream to which the response will be written
+ * @throws IOException if an input or output exception occurs regarding the configuration file
+ */
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {
         String data=readFile(requestInfo);
         BufferedReader reader = new BufferedReader(new StringReader(data));
@@ -111,11 +123,22 @@ public class ConfLoader implements Servlet {
         }
     }
 
+    /**
+     * Closes the resource, performing any necessary cleanup.
+     *
+     * @throws IOException if an input or output exception occurs
+     */
     @Override
     public void close() throws IOException {
         // No resources to close in this implementation
     }
 
+    /**
+     * Handles errors by generating an HTTP error response, containing HTML error.
+     *
+     * @param errorMessage the error message to be displayed
+     * @return a string containing the full HTTP response with the error HTML content
+     */
     private String handleError(String errorMessage){
         String htmlResponse="<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
@@ -166,7 +189,13 @@ public class ConfLoader implements Servlet {
 
     }
 
-
+    /**
+     * Reads a file from the provided RequestInfo object and returns its content as a string.
+     *
+     * @param requestInfo the RequestInfo object containing the file content
+     * @return a string containing the content of the file
+     * @throws IOException if an input or output exception occurs, or if the content type is not multipart/form-data
+     */
     public String readFile(RequestInfo requestInfo) throws IOException {
         // Extract the content type boundary
         String contentType = requestInfo.getHeaders().get("Content-Type");

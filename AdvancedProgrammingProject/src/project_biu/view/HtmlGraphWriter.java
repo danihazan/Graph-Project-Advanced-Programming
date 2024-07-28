@@ -14,10 +14,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * The HtmlGraphWriter class is responsible for generating HTML representations of a graph.
+ */
 public class HtmlGraphWriter {
 
-    // Method to generate HTML from the graph object
+    /**
+     * Generates HTML representation from the provided graph object from template graph.html
+     *
+     * @param graph the graph object to be converted to HTML
+     * @return a string containing the HTML representation of the graph
+     * @throws IOException if an input or output exception occurs
+     */
     public static String getGraphHTML(Graph graph) throws IOException {
         // Load the HTML template from the file located two directories back in "html_files"
         // Get the current working directory
@@ -66,7 +74,12 @@ public class HtmlGraphWriter {
         return result;
     }
 
-    // Helper method to determine the node type based on its name
+    /**
+     * Helper method to determine the node type("agent" or "topic") based on its name.
+     *
+     * @param name the name of the node - topic node starts with "T", agent code starts with "A"
+     * @return a string representing the node type
+     */
     private static String getNodeType(String name) {
         if (name.startsWith("T")) {
             return "topic";
@@ -74,6 +87,12 @@ public class HtmlGraphWriter {
             return "agent";
         }
     }
+
+    /**
+     * Helper method to get the node's equation.
+     *
+     * @return a map where the key is the node name and the value is the equation associated with the node for topics return Topic
+     */
     private static Map<String, String> getNodesEquation() {
         GenericConfig gc = ConfLoader.gc;
         List<Agent> agents = gc.getAgents();
