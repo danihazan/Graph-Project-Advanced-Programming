@@ -11,6 +11,14 @@ import java.util.Objects;
 
 import project_biu.graph.Agent;
 
+/**
+ * Implements the Config interface to provide configuration settings through a file-based approach.
+ * This class manages the configuration of agents, allowing settings to be loaded and modified via a configuration file.
+ *
+ * Fields:
+ * - configFileName: The name of the configuration file used to load and save settings.
+ * - agents: A list of agents that are configured through this configuration file.
+ */
 public class GenericConfig implements Config {
 
     String configFileName;
@@ -21,7 +29,13 @@ public class GenericConfig implements Config {
         this.configFileName = confFile;
     }
 
-    // Method creates agents based on the configuration file
+    /**
+     * Creates and initializes configuration settings from a specified file. It reads agent configurations and dynamically instantiates agents based on class names provided in the file.
+     * This method processes each line as a separate agent configuration, which includes the class name, subscription topics, and publication topics.
+     * Exceptions are thrown for file reading errors, class loading issues, or constructor problems, ensuring robust error handling.
+     *
+     * @throws Exception If there is an error reading the configuration file, or if an error occurs during agent instantiation.
+     */
     @Override
     public void create() throws Exception {
         List<String> lines = List.of();
@@ -78,16 +92,14 @@ public class GenericConfig implements Config {
         }
     }
 
-
-    //Config file handling
-//    private List<String> readConfigFile() {
-//        try {
-//            return Files.readAllLines(Paths.get(configFileName));
-//        } catch (IOException e) {
-//            System.err.println("Error reading configuration file: " + e.getMessage());
-//            return null;
-//        }
-//    }
+    /**
+     * Validates the configuration file format. Checks if the number of lines in the configuration file is correct and divisible by three,
+     * indicating a consistent block structure where each block defines an agent along with its subscriptions and publications.
+     * Each block is further validated for correct formatting and content.
+     *
+     * @param lines A list of strings representing the lines read from the configuration file.
+     * @return true if the configuration file is valid and follows the required format, false otherwise.
+     */
     private boolean ifConfigFileValid(List<String> lines) {
         //check if number of lines is divided by 3
         int numberOfLines = lines.size();
@@ -106,9 +118,18 @@ public class GenericConfig implements Config {
         }
         return true;
 
-    }    //Validation for Config File
+    }
+
+    /**
+     * Validates a specific block of configuration data for an agent. This method checks that no line in the block is empty and attempts to load the class specified in the block.
+     * A block is considered valid if the class can be found and loaded, and all lines are non-empty.
+     *
+     * @param lines The entire list of configuration lines.
+     * @param index The starting index of the block to validate within the lines list.
+     * @return true if the block is valid, indicating that the class exists and there are no empty lines in the block; false otherwise.
+     */
     private boolean isValidAgentBlock(List<String> lines, int index) {
-        //check for empty lines in blocc
+        //check for empty lines in block
         if (lines.get(index).trim().isEmpty() || lines.get(index + 1).trim().isEmpty() || lines.get(index + 2).trim().isEmpty()) return false;
 
         // Validate class name
@@ -123,24 +144,6 @@ public class GenericConfig implements Config {
     }
     public int getNumberOfAgents(){
         return agents.size();
-    }
-
-    public boolean VerifyIncAgentExist() {
-        for(Agent a: this.agents) {
-            if (Objects.equals(a.getName(), "IncAgent")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean DoesPlusAgentExist() {
-        for(Agent a: this.agents) {
-            if (Objects.equals(a.getName(), "PlusAgent")) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public List<Agent> getAgents(){
