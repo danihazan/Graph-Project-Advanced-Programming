@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Form</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: 10px 0;
+        }
+        .form-container input[type="file"],
+        .form-container button {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-container input[type="text"] {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-container label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <form action="http://localhost:8080/upload" method="post" enctype="multipart/form-data" target="graphFrame">
+        <h1>Upload Configuration File</h1>
+        <label for="configFile"></label>
+        <input type="file" id="configFile" name="configFile" required>
+        <button type="submit">Deploy</button>
+    </form>
+    <br/>
+    <form action="http://localhost:8080/publish" method="get" target="topicTableFrame">
+        <h1>Send Message To Topic</h1>
+        <br/>
+        <label for="topic">Topic name:</label>
+        <input type="text" id="topic" name="topic" required>
+
+        <label for="message">Message:</label>
+        <input type="text" id="message" name="message" required>
+
+        <button type="submit">Send</button>
+    </form>
+</div>
+</body>
+</html>
