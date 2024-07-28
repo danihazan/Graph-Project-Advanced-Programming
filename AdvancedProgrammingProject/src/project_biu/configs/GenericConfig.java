@@ -100,7 +100,7 @@ public class GenericConfig implements Config {
         //check if blocks are valid
         for (int i = 0; i < lines.size(); i += 3) {
             if (!isValidAgentBlock(lines, i)) {
-                System.err.println("Invalid configuration block starting at line " + (i + 1));
+                System.out.println("Invalid configuration block starting at line " + (i + 1));
                 return false;
             }
         }

@@ -34,5 +34,8 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.in.read();
+        server.close();
+        System.out.println("done");
     }
 }
