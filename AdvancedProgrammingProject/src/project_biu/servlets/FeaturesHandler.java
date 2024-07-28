@@ -2,8 +2,6 @@ package project_biu.servlets;
 
 import project_biu.configs.*;
 import project_biu.graph.Agent;
-import project_biu.graph.Graph;
-import project_biu.graph.Topic;
 import project_biu.graph.TopicManagerSingleton;
 import project_biu.server.RequestParser;
 
@@ -11,7 +9,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class FeaturesHandler implements Servlet {
@@ -23,9 +20,6 @@ public class FeaturesHandler implements Servlet {
             toClient.write(httpResponse.getBytes(StandardCharsets.UTF_8));
             toClient.flush();
             System.out.println(httpResponse);
-        }
-        else if(uriContainsString(ri.getUriSegments(),"reset")){
-            resetHandle();
         }
     }
 
@@ -91,13 +85,6 @@ public class FeaturesHandler implements Servlet {
         return httpResponse;
     }
 
-    private void resetHandle(){
-        System.out.println("reset");
-        ConfLoader.gc.close();
-        ConfLoader.gc=null;
-        TopicManagerSingleton.get().clear();
-
-    }
     private boolean uriContainsString(String[] uriSegmant,String target) {
         return Arrays.asList(uriSegmant).contains(target);
     }
