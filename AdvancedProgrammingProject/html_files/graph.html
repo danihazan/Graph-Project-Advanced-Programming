@@ -10,11 +10,20 @@
             height: 100vh;
             border: 1px solid lightgray;
         }
+        #node-info {
+            width: 100%;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
     </style>
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 </head>
 <body>
 <div id="network"></div>
+<div id="node-info">Click on a node to see its equation.</div>
 <script>
     window.onload = function() {
         // Create an array with nodes
@@ -78,7 +87,22 @@
                 }
             }
         };
-        new vis.Network(container, data, options);
+        const network = new vis.Network(container, data, options);
+
+        // Add click event listener to show node equation
+        network.on('click', function(properties) {
+            const nodeId = properties.nodes[0];
+            if (nodeId) {
+                const node = nodes.get(nodeId);
+                if (node.equation) {
+                    document.getElementById('node-info').innerText = `Node Equation: ${node.equation}`;
+                } else {
+                    document.getElementById('node-info').innerText = 'Click on a node to see its equation.';
+                }
+            } else {
+                document.getElementById('node-info').innerText = 'Click on a node to see its equation.';
+            }
+        });
     }
 </script>
 </body>
