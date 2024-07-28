@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 import project_biu.server.RequestParser.RequestInfo;
 
+/**
+ * The HtmlLoader class is a servlet responsible for loading and serving HTML content.
+ * Handle "GET", "/app/" requests
+ */
 public class HtmlLoader implements Servlet {
     private final String htmlFolder;
     private static final Map<String, String> MIME_TYPES = new HashMap<>();
@@ -22,6 +26,13 @@ public class HtmlLoader implements Servlet {
         this.htmlFolder = htmlFolder;
     }
 
+    /**
+     * Handles the incoming HTTP request, serving the requested HTML file or returning an appropriate error message.
+     *
+     * @param requestInfo the RequestInfo object containing details about the client's request
+     * @param toClient the OutputStream to which the response will be written
+     * @throws IOException if an input or output exception occurs
+     */
     @Override
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {
         String modifiedPath = htmlFolder + requestInfo.getUri().substring(4); // Remove "/app"
@@ -45,12 +56,23 @@ public class HtmlLoader implements Servlet {
         }
     }
 
+    /**
+     * Helper method that retrieves the file extension of the given file path.
+     *
+     * @param path the path of the file
+     * @return the file extension as a string
+     */
     private String getFileExtension(Path path) {
         String name = path.toString();
         int lastIndexOf = name.lastIndexOf(".");
         return lastIndexOf == -1 ? "" : name.substring(lastIndexOf + 1);
     }
 
+    /**
+     * Closes the resource, performing any necessary cleanup.
+     *
+     * @throws IOException if an input or output exception occurs
+     */
     @Override
     public void close() throws IOException {
         // No resources to close in this implementation

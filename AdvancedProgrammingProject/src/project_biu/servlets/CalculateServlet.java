@@ -6,9 +6,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import project_biu.server.RequestParser.RequestInfo;
-
+/**
+ * The CalculateServlet class handles HTTP requests and performs calculations based on the provided parameters.
+ */
 public class CalculateServlet implements Servlet {
 
+    /**
+     * Handles the incoming request and writes the response to the provided OutputStream.
+     *
+     * @param requestInfo the RequestInfo object containing details about the client's request
+     * @param response the OutputStream to which the response will be written
+     * @throws IOException if an input or output exception occurs
+     */
     @Override
     public void handle(RequestInfo requestInfo, OutputStream response) throws IOException {
         System.out.println("CalculateServlet HANDLE");

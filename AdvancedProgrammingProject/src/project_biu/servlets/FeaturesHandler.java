@@ -11,8 +11,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The FeaturesHandler class is a servlet responsible for handling features-related HTTP requests.
+ * Handles "GET","/features" requests
+ */
 public class FeaturesHandler implements Servlet {
-
+    /**
+     * Handles the incoming request of type "GET","/features" and writes the response to the provided OutputStream.
+     *
+     * @param ri the RequestParser.RequestInfo object containing details about the client's request
+     * @param toClient the OutputStream to which the response will be written
+     * @throws IOException if an input or output exception occurs
+     */
     @Override
     public void handle(RequestParser.RequestInfo ri, OutputStream toClient) throws IOException {
         if(uriContainsString(ri.getUriSegments(),"eval")) {
@@ -23,11 +33,21 @@ public class FeaturesHandler implements Servlet {
         }
     }
 
+
+    /**
+     * Closes the resource, performing any necessary cleanup.
+     *
+     * @throws IOException if an input or output exception occurs
+     */
     @Override
     public void close() throws IOException {
 
     }
-
+    /**
+     * Generates an HTML representation to display graph's equations.
+     *
+     * @return a string containing the HTML content for displaying evaluations
+     */
     private String showEvaluationsHandle(){
         GenericConfig gc=ConfLoader.gc;
         TopicManagerSingleton.TopicManager tm=TopicManagerSingleton.get();
@@ -103,9 +123,15 @@ public class FeaturesHandler implements Servlet {
                 "\r\n" + htmlTable.toString();
         return httpResponse;
     }
-
-    private boolean uriContainsString(String[] uriSegmant,String target) {
-        return Arrays.asList(uriSegmant).contains(target);
+    /**
+     * Helper method checks if the target string is contained within the URI segments.
+     *
+     * @param uriSegment an array of URI segments
+     * @param target the target string to search for within the URI segments
+     * @return true if the target string is found within the URI segments, false otherwise
+     */
+    private boolean uriContainsString(String[] uriSegment,String target) {
+        return Arrays.asList(uriSegment).contains(target);
     }
 
 

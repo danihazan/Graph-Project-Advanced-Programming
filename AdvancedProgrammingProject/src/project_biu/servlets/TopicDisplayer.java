@@ -10,7 +10,11 @@ import project_biu.graph.Message;
 import project_biu.graph.Topic;
 import project_biu.graph.TopicManagerSingleton;
 import project_biu.server.RequestParser.RequestInfo;
-
+/**
+ * The TopicDisplayer class implements the Servlet interface and is responsible for displaying topics' table.
+ *  * Handle "GET", "/publish" requests
+ *
+*/
 public class TopicDisplayer implements Servlet {
     @Override
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {

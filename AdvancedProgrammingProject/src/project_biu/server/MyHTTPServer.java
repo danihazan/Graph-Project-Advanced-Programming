@@ -11,6 +11,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * The MyHTTPServer class extends the Thread class and implements the HTTPServer interface.
+ * It provides functionality for managing servlets and handling HTTP requests.
+ */
 public class MyHTTPServer extends Thread implements HTTPServer {
 
     private final int port;
@@ -22,9 +26,10 @@ public class MyHTTPServer extends Thread implements HTTPServer {
     private volatile boolean running = true;
 
     /**
-     * Constructor to initialize the server with a port and maximum number of threads.
-     * @param port The port number on which the server listens.
-     * @param nThreads The maximum number of threads in the thread pool.
+     * Constructs a new MyHTTPServer with the specified port and number of threads.
+     *
+     * @param port the port number on which the server will listen for incoming connections
+     * @param nThreads the number of threads to be used by the server
      */
     public MyHTTPServer(int port, int nThreads) {
         this.port = port;
@@ -35,11 +40,14 @@ public class MyHTTPServer extends Thread implements HTTPServer {
         this.lock = new ReentrantLock();
     }
 
+
     /**
-     * Adds a servlet to handle requests for a specific HTTP method and URI.
-     * @param httpCommand The HTTP method (GET, POST, DELETE).
-     * @param uri The URI to be handled by the servlet.
-     * @param s The servlet to handle the requests.
+     * Adds a servlet to handle requests for the specified HTTP command and URI.
+     *
+     * @param httpCommand the HTTP command (e.g., GET, POST, DELETE) that the servlet will handle
+     * @param uri the URI for which the servlet will handle requests
+     * @param s the servlet to be added
+     * @throws IllegalArgumentException if the provided HTTP command is unsupported
      */
     public void addServlet(String httpCommand, String uri, Servlet s) {
         lock.lock();
@@ -64,9 +72,11 @@ public class MyHTTPServer extends Thread implements HTTPServer {
 
     /**
      * Removes a servlet for a specific HTTP method and URI.
-     * @param httpCommand The HTTP method (GET, POST, DELETE).
-     * @param uri The URI from which the servlet should be removed.
+     *
+     * @param httpCommand the HTTP method (GET, POST, DELETE)
+     * @param uri the URI from which the servlet should be removed
      */
+    @Override
     public void removeServlet(String httpCommand, String uri) {
         lock.lock();
         try {
@@ -89,7 +99,7 @@ public class MyHTTPServer extends Thread implements HTTPServer {
     }
 
     /**
-     * Starts the server in a new thread.
+     * Starts the HTTP server, beginning to accept and handle requests.
      */
     @Override
     public void start() {
@@ -134,6 +144,7 @@ public class MyHTTPServer extends Thread implements HTTPServer {
 
     /**
      * Handles an individual client request.
+     * Sends request to matching servlet
      * @param clientSocket The socket connected to the client.
      */
     private void handleClient(Socket clientSocket) {
