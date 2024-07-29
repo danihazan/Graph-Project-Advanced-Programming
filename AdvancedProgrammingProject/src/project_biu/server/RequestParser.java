@@ -18,7 +18,13 @@ public class RequestParser {
      * @throws IOException if an I/O error occurs or the request is invalid
      */
     public static RequestInfo parseRequest(BufferedReader reader) throws IOException {
-        String requestLine = reader.readLine();
+        String requestLine = null;
+        try {
+            requestLine = reader.readLine();
+        } catch (IOException e) {
+            return null;
+        }
+
         if (requestLine == null || requestLine.trim().isEmpty()) {
             throw new IOException("Invalid/Empty request line");
         }
