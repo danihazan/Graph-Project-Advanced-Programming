@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import project_biu.graph.TopicManagerSingleton;
 import project_biu.view.HtmlGraphWriter;
 
 import project_biu.configs.GenericConfig;
@@ -81,6 +82,7 @@ public class ConfLoader implements Servlet {
         if (filePath != null) {
                 //Creating Agents and topics from config file using Generic config
                 gc = new GenericConfig();
+                TopicManagerSingleton.get().clear();// reset topic manager
                 gc.setConfFile("temp_config");
             try {
                 gc.create();

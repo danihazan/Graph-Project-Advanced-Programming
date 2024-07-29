@@ -57,7 +57,7 @@ public class BinOpAgent implements Agent {
         if(topic.equals(firstTopicName)){
             firstInputVal = msg.asDouble;
         }
-        else if(topic.equals(secondTopicName)){
+        if(topic.equals(secondTopicName)){
             secondInputVal = msg.asDouble;
             }
         //check if both topics sent Double if so calculate output
