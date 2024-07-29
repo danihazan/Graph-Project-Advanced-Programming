@@ -29,7 +29,6 @@ public class FeaturesHandler implements Servlet {
             String httpResponse = showEvaluationsHandle();
             toClient.write(httpResponse.getBytes(StandardCharsets.UTF_8));
             toClient.flush();
-            System.out.println(httpResponse);
         }
     }
 
@@ -133,6 +132,5 @@ public class FeaturesHandler implements Servlet {
     private boolean uriContainsString(String[] uriSegment,String target) {
         return Arrays.asList(uriSegment).contains(target);
     }
-
 
 }

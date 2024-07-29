@@ -49,7 +49,6 @@ public class Topic {
         lastMessage=m.asText;
         for(Agent a : this.subs) {
             a.callback(name,m);
-            System.out.println("publishing message "+m.asText+" to "+a.getName());
         }
     }
     /**

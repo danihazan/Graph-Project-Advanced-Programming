@@ -20,13 +20,13 @@ public class CalculateServlet implements Servlet {
      */
     @Override
     public void handle(RequestInfo requestInfo, OutputStream response) throws IOException {
-        System.out.println("CalculateServlet HANDLE");
+        //System.out.println("CalculateServlet HANDLE");
         Map<String, String> parameters = requestInfo.getParameters();
         int a = Integer.parseInt(parameters.getOrDefault("a", "0"));
         int b = Integer.parseInt(parameters.getOrDefault("b", "0"));
         String operation = parameters.getOrDefault("op", "subtract");
         int result;
-        System.out.println("a:"+a+" b:"+b+" operation:"+operation);
+        //System.out.println("a:"+a+" b:"+b+" operation:"+operation);
 
         switch (operation) {
             case "add":

@@ -38,7 +38,6 @@ public class HtmlGraphWriter {
         // Generate JavaScript array for nodes with coordinates and messages if they exist
         StringBuilder nodesJsArray = new StringBuilder("[\n");
         Map<String, String> equationsMap=getNodesEquation();
-        System.out.println(equationsMap);
         for (Node node : graph) {
             if (nodesJsArray.length() > 2) { // Check if not the first entry
                 nodesJsArray.append(",\n");
@@ -66,7 +65,6 @@ public class HtmlGraphWriter {
         }
         edgesJsArray.append("\n]");
 
-        System.out.println(nodesJsArray.toString());
         // Replace placeholders in the template with generated JavaScript arrays
         String result = template.replace("/* NODES_PLACEHOLDER */", nodesJsArray.toString())
                 .replace("/* EDGES_PLACEHOLDER */", edgesJsArray.toString());

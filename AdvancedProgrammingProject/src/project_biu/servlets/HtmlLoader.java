@@ -37,7 +37,6 @@ public class HtmlLoader implements Servlet {
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {
         String modifiedPath = htmlFolder + requestInfo.getUri().substring(4); // Remove "/app"
         Path filePath = Paths.get(modifiedPath).normalize();
-        System.out.println("path is - " + filePath);
 
         if (!filePath.startsWith(Paths.get(htmlFolder))) {
             String response = "HTTP/1.1 403 Forbidden\r\n\r\nAccess Denied";
