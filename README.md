@@ -5,9 +5,10 @@ The Computational Graph Viewer is a tool designed to visualize and interact with
 
 ## Table of Contents
 1. [Installation](#installation)
-2. [Usage](#usage)
-2. [Configurations](#configurations)
-4. [Features](#features)
+2. [Run](#run)
+3. [Usage](#usage)
+4. [Configurations](#configurations)
+5. [Features](#features)
 
 ## Installation
 
@@ -17,7 +18,7 @@ The Computational Graph Viewer is a tool designed to visualize and interact with
    
 ![image](https://github.com/user-attachments/assets/b067c999-d148-476a-b731-176cfe5ede21)
 
-## Usage
+## Run
 ### Running The Project
 
    1. Navigate to the project directory:
@@ -27,7 +28,7 @@ The Computational Graph Viewer is a tool designed to visualize and interact with
       ![image](https://github.com/user-attachments/assets/5e370235-a531-45a6-94b0-32643377f37d)
    3. Run the Main script:
       
-      When java is Not in Your Environment Variables
+      #### When java is Not in Your Environment Variables
       
          Use the full path to the java executable:
       
@@ -36,13 +37,51 @@ The Computational Graph Viewer is a tool designed to visualize and interact with
          ![image](https://github.com/user-attachments/assets/cc04bd45-0c11-41c0-a05f-40e4b13cb072)
 
 
-      When java is in Your Environment Variables
+      #### When java is in Your Environment Variables
       
-         Simply run the command:
+      Simply run the command:
       
-         java AdvancedProgrammingProject\src\project_biu\Main.java
+      java AdvancedProgrammingProject\src\project_biu\Main.java
       
-         ![image](https://github.com/user-attachments/assets/e718a0bf-0c39-4413-9c27-1f54becc3587)
+      ![image](https://github.com/user-attachments/assets/e718a0bf-0c39-4413-9c27-1f54becc3587)
+
+## Usage
+After running the project a tab in the browser will pop.
+
+![image](https://github.com/user-attachments/assets/e201bc08-47ce-4eae-ac9d-46b639989346)
+
+### Choose Configuration File:
+Use the "Choose File" button to select a configuration file from your local system.
+
+Once selected, click the "Deploy" button to upload and visualize the graph.
+
+### Send Messages on Topics:
+
+ After uploading the configuration file you can send messages to specific topics by entering the topic name and the message, then clicking the "Send" button.
+
+ A table containing the updated values of topics will be shown on the side.
+
+## Features
+
+#### View Agent Node Equation:
+
+Press a node to view its equation.
+
+#### View All Equations:
+
+Push the Show Equations button to view the equations and results for all node.
+
+#### Zoom In/Out:
+
+Use mouse to zoom in/out graph.
+
+#### Rearrange graph:
+
+Drag nodes to rearrange the graph.
+
+
+
+
 
 
 
