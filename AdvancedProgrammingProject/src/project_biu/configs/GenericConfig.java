@@ -59,7 +59,6 @@ public class GenericConfig implements Config {
                     Object agent = constructor.newInstance((Object) subs, (Object) pubs);
                     ParallelAgent p_agent= new ParallelAgent((Agent) agent, 1);
                     this.agents.add(p_agent);
-                    System.out.println(p_agent.getName());
 
 
                 } catch (ClassNotFoundException e) {
@@ -71,7 +70,7 @@ public class GenericConfig implements Config {
                 }
             }
         } else {
-            throw new Exception("Invalid configuration file please follow Config file instructions ");
+            throw new Exception("Invalid configuration file please follow Config file instructions.\n Number of lines must divide by 3. \n Block should contain 1 or 2 Topics according to class.");
         }
     }
 
@@ -105,14 +104,12 @@ public class GenericConfig implements Config {
         int numberOfLines = lines.size();
         if (!(numberOfLines > 0 && numberOfLines % 3 == 0))
         {
-            System.out.println("1 " + numberOfLines);
             return false;
         }
 
         //check if blocks are valid
         for (int i = 0; i < lines.size(); i += 3) {
             if (!isValidAgentBlock(lines, i)) {
-                System.out.println("Invalid configuration block starting at line " + (i + 1));
                 return false;
             }
         }
