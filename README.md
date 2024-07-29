@@ -88,7 +88,7 @@ Configuration files define the blocks to create, with each block representing an
 
 ### Configuration File Example:
 
-![image](https://github.com/user-attachments/assets/fb3240f1-a01d-4e3b-b12e-d0210a9fda7d)
+![image](https://github.com/user-attachments/assets/3927b031-b1ea-4193-bbc6-842e1a60bfb8)
 
 ## Features
 
