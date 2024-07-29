@@ -7,7 +7,7 @@ The Computational Graph Viewer is a tool designed to visualize and interact with
 1. [Installation](#installation)
 2. [Run](#run)
 3. [Usage](#usage)
-4. [Configurations](#configurations)
+4. [Configuration Files](#configuration-files)
 5. [Features](#features)
 
 ## Installation
@@ -60,6 +60,35 @@ Once selected, click the "Deploy" button to upload and visualize the graph.
  After uploading the configuration file you can send messages to specific topics by entering the topic name and the message, then clicking the "Send" button.
 
  A table containing the updated values of topics will be shown on the side.
+
+## Configuration Files
+
+Configuration files define the blocks to create, with each block representing an agent. Each block contains:
+
+- The Agent's Class
+
+- Topics for which the agent subscribes
+
+- One topic that the agent publishes to
+
+
+#### Agent Classes
+- **IncAgent**: Receives 1 topic input.
+- **PlusAgent**: Receives 2 topic inputs.
+- **ExponentAgent**: Receives 2 topic inputs.
+- **MulAgent**: Receives 2 topic inputs.
+- **DivAgent**: Receives 2 topic inputs.
+
+#### Notes:
+- When including an Agent class please note the right path project_biu.configs.AgentClass.
+
+- Make sure your files doesn't contain empty lines or uneccesary spaces.
+
+- Number of lines in file should divide by 3.
+
+### Configuration File Example:
+
+![image](https://github.com/user-attachments/assets/fb3240f1-a01d-4e3b-b12e-d0210a9fda7d)
 
 ## Features
 
