@@ -73,7 +73,7 @@ public class DivAgent implements Agent {
         if(topic.equals(firstTopicName)){
             firstInputVal = msg.asDouble;
         }
-        else if(topic.equals(secondTopicName)){
+        if(topic.equals(secondTopicName)){
             secondInputVal = msg.asDouble;
 
         }
