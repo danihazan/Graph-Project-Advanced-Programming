@@ -12,13 +12,17 @@ import java.io.IOException;
 import java.net.URI;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         HTTPServer server=new MyHTTPServer(8080,5);
         server.addServlet("GET", "/publish", new TopicDisplayer());
         server.addServlet("POST", "/upload", new ConfLoader());
         server.addServlet("GET","/features", new FeaturesHandler());
         server.addServlet("GET", "/app/", new HtmlLoader("AdvancedProgrammingProject/html_files/"));
         server.start();
+
+        // Let server get start
+        Thread.sleep(5000);
+
         try {
             // URL to open
             URI uri = new URI("http://localhost:8080/app/index.html");
