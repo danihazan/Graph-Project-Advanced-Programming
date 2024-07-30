@@ -73,11 +73,14 @@ Configuration files define the blocks to create, with each block representing an
 
 
 #### Agent Classes
-- **IncAgent**: Receives 1 topic input.
-- **PlusAgent**: Receives 2 topic inputs.
-- **ExponentAgent**: Receives 2 topic inputs.
-- **MulAgent**: Receives 2 topic inputs.
-- **DivAgent**: Receives 2 topic inputs.
+Recieves one input topic , X:
+- **IncAgent**: Calculates: X+1.
+  
+Receives 2 input topics, X, Y:
+- **PlusAgent**: Calculates: X+Y.
+- **ExponentAgent**: Calculate: X^Y.
+- **MulAgent**: Calculates: X*Y.
+- **DivAgent**: Calculates: X/Y.
 
 #### Notes:
 - When including an Agent class please note the right path project_biu.configs.AgentClass.
